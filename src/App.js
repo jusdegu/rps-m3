@@ -47,11 +47,6 @@ class GetName extends React.Component {
 }
 
 function ButtonComponent (props) {
-  let randomNum = function (min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floow(Math.random() * (max - min)) + min;
-  }
 
   function myClick(value) {
     alert("You've selected " + value + "!");
@@ -75,20 +70,39 @@ function ButtonComponent (props) {
 class App extends Component {
   constructor (props) {
     super(props);
-    this.state = { submitted: false, p1Choice: "", p1Name: "" };
+    this.state = { submitted: false, p1Choice: "", p1Name: "", selection: false };
   }
 
   handleClick = (value) => {
-    this.setState({ p1Choice: value });
+    this.setState({ p1Choice: value, selection: true });
   };
 
   handleName = (name) => {
     this.setState({ p1Name: name, submitted: true });
   };
 
-  render() {
+  playerKnown() {
+    let pcChoice = pcSelector;
+    if (this.state.p1Choice == "Rock" && pcChoice == 2) {
+      return false;
+    }
+    return false;
+  }
 
-    let event; 
+  function pcSelector () {
+    function randomNum (min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floow(Math.random() * (max - min)) + min;
+    }
+    
+    let pcNum = randomNum(1, 3);
+    return pcNum;
+  }
+
+  render() {
+    let event;
+    let result;
 
     if (this.state.p1Name === "") {
       event = <GetName name="get-user-name" handleName={this.handleName}/>;
@@ -97,13 +111,19 @@ class App extends Component {
       event = <ButtonComponent p1Name={this.state.p1Name} handleClick={this.handleClick}/>;
     }
 
+    if (this.state.selection === true) {
+      (playerWon()) ? result = <h1>You win!</h1> : result = <h1>You lose! :(</h1>;
+    }
+
     return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="spawn of satan" />
         {event}
+        {result}
       </header>
     </div>
+    
     );
   }
 }
