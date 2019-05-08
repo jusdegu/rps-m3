@@ -29,6 +29,15 @@
   color: #61dafb;
 }
 
+.rowwide{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+}
+
 .rowslol {
   display: flex;
   flex-direction: rows;

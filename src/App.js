@@ -1,12 +1,12 @@
-import React from "react";
+import React, {Component} from "react";
 import logo from "./img/himpp.png";
 import rock from "./img/darock.jpg";
 import paper from "./img/paper.png";
 import scissors from "./img/scissors.png";
 import "./App.css";
 
-let p1Name = "";
-let p1Choice = "";
+// let p1Name = "";
+// let p1Choice = "";
 
 // class MyComponent extends React.Component {
 //   render() {
@@ -28,8 +28,8 @@ class GetName extends React.Component {
   }
 
   handleSubmit(event) {
-    p1Name = this.state.value;
-    alert('A name was submitted: ' + p1Name);
+    alert('A name was submitted: ' + this.state.value);
+    this.props.handleName(this.state.value);
     event.preventDefault();
   }
 
@@ -46,53 +46,66 @@ class GetName extends React.Component {
   }
 }
 
-class ButtonComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {name: "", nameSubmitted: false};
+function ButtonComponent (props) {
+  let randomNum = function (min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floow(Math.random() * (max - min)) + min;
   }
 
-  submitName = () => {
-    this.setState({nameSubmitted: true});
+  function myClick(value) {
+    alert("You've selected " + value + "!");
+    props.handleClick(value);
   }
 
-  myClick(value) {
-    p1Choice = value;
-    alert("You've selected " + p1Choice + "!");
-  }
-  render() {
-    return (<div class="rowslol">
-      <div class="button" onClick={() => this.myClick("Rock")}><img src={rock} className="img-button" alt="rock" /></div>
-      <div class="button" onClick={() => this.myClick("Paper")}><img src={paper} className="img-button" alt="paper" /></div>
-      <div class="button" onClick={() => this.myClick("Scissors")}><img src={scissors} className="img-button" alt="scissors" /></div>
-    </div>);
-  }
-};
-
-// function TestComponent() {
-//   return <h1>This is supposed to be a component.</h1>;
-// }
-
-function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="him" />
-
-        {/* <div id="my-component">
-          <MyComponent name="Master Component" />
-        </div> */}
-
-        <GetName name="get-user-name" />
-        
-        {/* Make button */}
-        <ButtonComponent name="Buttons"/>
-        
-      
-
-      </header>
+    <div class="rowwide">
+      <div><h2>Welcome {props.p1Name}!</h2></div>
+      <div><h3>Click a button.</h3></div>
+      <div class="rowslol">
+        <div class="button" onClick={() => myClick("Rock")}><img src={rock} className="img-button" alt="rock" /></div>
+        <div class="button" onClick={() => myClick("Paper")}><img src={paper} className="img-button" alt="paper" /></div>
+        <div class="button" onClick={() => myClick("Scissors")}><img src={scissors} className="img-button" alt="scissors" /></div>
+      </div>
     </div>
   );
+
+};
+
+class App extends Component {
+  constructor (props) {
+    super(props);
+    this.state = { submitted: false, p1Choice: "", p1Name: "" };
+  }
+
+  handleClick = (value) => {
+    this.setState({ p1Choice: value });
+  };
+
+  handleName = (name) => {
+    this.setState({ p1Name: name, submitted: true });
+  };
+
+  render() {
+
+    let event; 
+
+    if (this.state.p1Name === "") {
+      event = <GetName name="get-user-name" handleName={this.handleName}/>;
+    }
+    else {
+      event = <ButtonComponent p1Name={this.state.p1Name} handleClick={this.handleClick}/>;
+    }
+
+    return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="spawn of satan" />
+        {event}
+      </header>
+    </div>
+    );
+  }
 }
 
 export default App;
