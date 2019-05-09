@@ -5,15 +5,6 @@ import paper from "./img/paper.png";
 import scissors from "./img/scissors.png";
 import "./App.css";
 
-// let p1Name = "";
-// let p1Choice = "";
-
-// class MyComponent extends React.Component {
-//   render() {
-//     return <div className="my-component">Spawn of Satan</div>;
-//   }
-// };
-
 class GetName extends React.Component {
   constructor(props) {
     super(props);
