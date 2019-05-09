@@ -28,7 +28,7 @@ class GetName extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+    // alert('A name was submitted: ' + this.state.value);
     this.props.handleName(this.state.value);
     event.preventDefault();
   }
@@ -49,7 +49,7 @@ class GetName extends React.Component {
 function ButtonComponent (props) {
 
   function myClick(value) {
-    alert("You've selected " + value + "!");
+    // alert("You've selected " + value + "!");
     props.handleClick(value);
   }
 
@@ -71,6 +71,7 @@ class App extends Component {
   constructor (props) {
     super(props);
     this.state = { submitted: false, p1Choice: "", p1Name: "", selection: false };
+    this.pcChoice = "";
   }
 
   handleClick = (value) => {
@@ -80,34 +81,37 @@ class App extends Component {
   handleName = (name) => {
     this.setState({ p1Name: name, submitted: true });
   };
+  
+  randomNum = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    let ran = Math.floor(Math.random() * (max - min)) + min;
 
-  playerKnown() {
-    let pcChoice = function () {
-        function randomNum (min, max) {
-          min = Math.ceil(min);
-          max = Math.floor(max);
-          return Math.floow(Math.random() * (max - min)) + min;
-        }
-        
-        let pcNum = randomNum(1, 3);
-        return pcNum;
-    };
-    if (this.state.p1Choice == "Rock" && pcChoice == 2) {
-      return false;
+    console.log("Random number is: " + ran);
+
+    if (ran === 1){
+      return "Rock";
     }
-    return false;
-  }
+    else if (ran === 2) {
+      return "Paper";
+    }
+    else {
+      return "Scissors";
+    }
+  };
 
-  // pcSelector = () => {
-  //   function randomNum (min, max) {
-  //     min = Math.ceil(min);
-  //     max = Math.floor(max);
-  //     return Math.floow(Math.random() * (max - min)) + min;
-  //   }
-    
-  //   let pcNum = randomNum(1, 3);
-  //   return pcNum;
-  // }
+  // Rock, Paper, Scissors
+  analyze = () => {
+    this.pcChoice = this.randomNum(1, 4);
+    if ((this.state.p1Choice === "Rock" && this.pcChoice === "Scissors") || 
+    (this.state.p1Choice === "Paper" && this.pcChoice === "Rock") ||
+    (this.state.p1Choice === "Scissors" && this.pcChoice === "Paper"))
+      return 1;
+    else if (this.state.p1Choice === this.pcChoice)
+      return 3;
+    else
+      return 2;
+  }
 
   render() {
     let event;
@@ -121,10 +125,19 @@ class App extends Component {
     }
 
     if (this.state.selection === true) {
-      let playerWon = function () {
-        // do win/lose logic stuff in here
-      };
-      (playerWon) ? result = <h1>You win!</h1> : result = <h1>You lose! :(</h1>;
+      let playerWon = this.analyze();
+
+      console.log("Result: " + playerWon);
+
+      if (playerWon === 1) {
+        result = <div><h1>You win!</h1> <h2>You selected {this.state.p1Choice}. PC selected {this.pcChoice}</h2></div>;
+      }
+      else if (playerWon === 2) {
+        result = <div><h1>You lose!</h1> <h2>You selected {this.state.p1Choice}. PC selected {this.pcChoice}</h2></div>;
+      }
+      else {
+        result = <div><h1>The game is tied!</h1> <h2>You selected {this.state.p1Choice}. PC selected {this.pcChoice}</h2></div>;
+      }
     }
 
     return (
