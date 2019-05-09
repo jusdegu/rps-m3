@@ -82,23 +82,32 @@ class App extends Component {
   };
 
   playerKnown() {
-    let pcChoice = pcSelector;
+    let pcChoice = function () {
+        function randomNum (min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floow(Math.random() * (max - min)) + min;
+        }
+        
+        let pcNum = randomNum(1, 3);
+        return pcNum;
+    };
     if (this.state.p1Choice == "Rock" && pcChoice == 2) {
       return false;
     }
     return false;
   }
 
-  function pcSelector () {
-    function randomNum (min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floow(Math.random() * (max - min)) + min;
-    }
+  // pcSelector = () => {
+  //   function randomNum (min, max) {
+  //     min = Math.ceil(min);
+  //     max = Math.floor(max);
+  //     return Math.floow(Math.random() * (max - min)) + min;
+  //   }
     
-    let pcNum = randomNum(1, 3);
-    return pcNum;
-  }
+  //   let pcNum = randomNum(1, 3);
+  //   return pcNum;
+  // }
 
   render() {
     let event;
@@ -112,7 +121,10 @@ class App extends Component {
     }
 
     if (this.state.selection === true) {
-      (playerWon()) ? result = <h1>You win!</h1> : result = <h1>You lose! :(</h1>;
+      let playerWon = function () {
+        // do win/lose logic stuff in here
+      };
+      (playerWon) ? result = <h1>You win!</h1> : result = <h1>You lose! :(</h1>;
     }
 
     return (
