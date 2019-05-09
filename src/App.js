@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import logo from "./img/himpp.png";
+// import logo from "./img/himpp.png";
 import rock from "./img/darock.jpg";
 import paper from "./img/paper.png";
 import scissors from "./img/scissors.png";
@@ -172,7 +172,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="spawn of satan" />
+          {/* <img src={logo} className="App-logo" alt="spawn of satan" /> */}
+          <h1>Rock, Paper, Scissors!</h1>
           {event}
           {result}
         </header>
